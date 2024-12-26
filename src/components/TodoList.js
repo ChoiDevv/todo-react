@@ -13,7 +13,9 @@ const TodoList = () => {
     }
 
     const deleteTodo = (id) => {
-        setLists(lists.filter((list) => list.id !== id));
+        setLists(
+            lists.map((list) => list.id === id ? { ...list, deleted: true } : list)
+        );
     }
 
     return (
@@ -28,10 +30,11 @@ const TodoList = () => {
             <TodoListButton onClick={addTodo} label="add"/>
 
             <ul>
-                {lists.map((list) => (
+                {lists.filter((list) => !list.deleted)
+                .map((list) => (
                     <li key={list.id}>
                         {list.text}
-                        <TodoListButton onClick={() => deleteTodo(list.id)} label="delete" />
+                    <button onClick={() => deleteTodo(list.id)}>Delete</button>
                     </li>
                 ))}
             </ul>
