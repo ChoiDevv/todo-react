@@ -6,11 +6,14 @@ const TodoList = () => {
     const [input, setInput] = useState('');
 
     const addTodo = () => {
-
+        if (input.trim()) {
+            setLists([...lists, { id: Date.now(), text: input, deleted: false }]);
+            setInput('');
+        }
     }
 
     const deleteTodo = (id) => {
-
+        setLists(lists.filter((list) => list.id !== id));
     }
 
     return (
