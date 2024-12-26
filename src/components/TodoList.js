@@ -19,9 +19,8 @@ const TodoList = () => {
     }
 
     const deleteTodo = (id) => {
-        setLists(
-            lists.map((list) => list.id === id ? { ...list, deleted: true } : list)
-        );
+        const updatedTodo = lists.filter((list) => list.id !== id);
+        setLists(updatedTodo);
     }
 
     return (
