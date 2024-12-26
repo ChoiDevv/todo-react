@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TodoListButton from './TodoListButton';
 
 const TodoList = () => {
-    const [lists, setLists] = useState([]);
     const [input, setInput] = useState('');
+    const [lists, setLists] = useState(() => {
+        const savedLists = localStorage.getItem('todos');
+        return savedLists && savedLists.length > 0 ? JSON.parse(savedLists) : [];
+    });
+
+    useEffect(() => {
+        localStorage.setItem('todos', JSON.stringify(lists));
+    }, [lists]);
 
     const addTodo = () => {
-        if (input.trim()) {
-            setLists([...lists, { id: Date.now(), text: input, deleted: false }]);
-            setInput('');
-        }
+        if (input.trim() === '') return;
+        setLists([...lists, { id: Date.now(), text: input, deleted: false }]);
+        setInput('');
     }
 
     const deleteTodo = (id) => {
